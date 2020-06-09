@@ -13,23 +13,35 @@ func logToWindow(_ msg: String) {
   print(msg)
 }
 
+protocol Logger {
+  func print(_ msg: String)
+}
+
+class ConsoleLogger : Logger {
+  func print(_ msg: String) {
+    logToConsole(msg)
+  }
+}
+
+class FileLogger : Logger {
+  func print(_ msg: String) {
+    logToFile(msg)
+  }
+}
+
+class WindowLogger : Logger {
+  func print(_ msg: String) {
+    logToWindow(msg)
+  }
+}
+
 // Now we have log before show the result
-func getValue(from number: Int, loggerType: Int) -> String {
+func getValue(from number: Int, loggerType: Logger) -> String {
   // First determine the result
   let result = "Something \(number)"
-  
-  switch loggerType {
-  case 1:
-    logToConsole(result)
-  case 2:
-    logToFile(result)
-  case 3:
-    logToWindow(result)
-  default:
-    break
-  }
+  loggerType.print(result)
   
   return result
 }
 
-getValue(from: 8, loggerType: 1)
+getValue(from: 8, loggerType: ConsoleLogger())
