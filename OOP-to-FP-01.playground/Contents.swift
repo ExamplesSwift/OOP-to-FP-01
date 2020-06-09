@@ -13,12 +13,30 @@ func logToWindow(_ msg: String) {
   print(msg)
 }
 
-func getValue(from number: Int, logger: (String) -> Void) -> String {
+enum Logger {
+  case console, file, window
+  
+  func print() -> (String) -> Void {
+    switch self {
+    case .console:
+      return logToConsole
+    case .file:
+    return logToFile
+      case .window:
+      return logToWindow
+    }
+  }
+  
+}
+
+func getValue(from number: Int, logger: Logger) -> String {
   // First determine the result
   let result = "Something \(number)"
-  logger(result)
+  
+  let theFunction = logger.print()  
+  theFunction(result)
   
   return result
 }
 
-getValue(from: 8, logger: logToConsole)
+getValue(from: 8, logger: .console)
