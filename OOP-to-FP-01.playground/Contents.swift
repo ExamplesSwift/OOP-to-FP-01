@@ -16,7 +16,7 @@ func logToWindow(_ msg: String) {
 enum Logger {
   case console, file, window
   
-  func print() -> (String) -> Void {
+  var print: (String) -> Void {
     switch self {
     case .console:
       return logToConsole
@@ -33,8 +33,7 @@ func getValue(from number: Int, logger: Logger) -> String {
   // First determine the result
   let result = "Something \(number)"
   
-  let theFunction = logger.print()  
-  theFunction(result)
+  logger.print(result)
   
   return result
 }
